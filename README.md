@@ -1,5 +1,5 @@
-# Basic Starter Kit
+# CPSC1517 Workbook 1241
 
-## Owner your name
+## Shane Kelemen
 
-alter this statement to indicate the usage of this repository
+Any projects that I build in class will be placed in this repository for you to download at your convenience
