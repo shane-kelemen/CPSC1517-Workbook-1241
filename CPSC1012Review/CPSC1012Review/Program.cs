@@ -3,8 +3,7 @@
 namespace CPSC1012Review
 {
     internal class Program
-    {
-        
+    {      
         static void Main(string[] args)
         {
             // Pre-increment/decrement vs Post-increment/decrement
@@ -401,6 +400,7 @@ namespace CPSC1012Review
             //
             // The list has two Properties that help demonstrate how the array is being managed for you by the runtime.
             // When the list is declared, it starts off with a Capacity of 0, and a used spot Count of 0.
+            Random rand = new Random();
             List<int> myInts = new List<int>();
             Console.WriteLine("Beginning Count : " + myInts.Count);
             Console.WriteLine("Beginning Capacity : " + myInts.Capacity); 
@@ -458,11 +458,65 @@ namespace CPSC1012Review
             Console.WriteLine("Maximum value : " + myInts.Max());
             Console.WriteLine("Minimum value index : " + myInts.IndexOf(myInts.Min()));
             Console.WriteLine("Maximum value index : " + myInts.IndexOf(myInts.Max()));
+            Console.WriteLine();
             // 
-            // Note that the last two lines are less efficient than the maually process as you must go through the list
+            // Note that the last two lines are less efficient than the manual process as you must go through the list
             // twice.
 
-            // THIS IS WHERE WE ENDED THE DISCUSSION ON THURSDAY, SEPTEMBER 05, 2024
+
+            // Methods - A block of code that is basically a "program within a program" in an application.
+            //
+            // Syntax:
+            // [access specifier(s)] returnType MethodName (Comma Separated Parameter List) 
+            // {
+            //      Method algorithm / instructions
+            // }
+            //
+            // [Access Specifiers]
+            // public - The method is available to be used by users outside the class
+            // private - The method may only be used inside the class
+            //
+            // static - The method is shared by all instances of the class (more on this when talking about classes)
+            //
+            // Example:
+            // public double Volume (double radius)
+            // {
+            //      return 4 / 3 * Math.PI * Math.Pow(radius, 3);
+            // }
+            //
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("Display of Method Operations");
+            Console.ForegroundColor = ConsoleColor.Gray;
+            //
+            // The following block of code sets up a call to the PowValues methods, and then displays the resulting
+            // changes to the intput List of integers.
+            int exp = 4;
+            PowValues(exp, myInts);
+
+            Console.WriteLine("List values after calling PowValues method");
+            foreach (int num in myInts)
+            {
+                Console.Write(num + " ");
+            }
+            Console.WriteLine();
+        }
+
+        /// <summary>
+        /// Applies the input exponent to each of the values in the input List of integers
+        /// </summary>
+        /// <param name="exponent">Power to be applied to all List values</param>
+        /// <param name="values">The List of values to be "powered"</param>
+        static private void PowValues (int exponent, List<int> values)
+        {
+            for (int index = 0; index < values.Count; ++index)
+            {
+                // Note the "cast" in front of the call to the Math.Pow method.  This is required because
+                // there is a possiblity of losing information from the return value from Math.Pow when we
+                // try to save the value into the integer List because it is a double.  Using the cast tells
+                // the compiler that we understand the risks and take responsibility for them.  A cast is putting
+                // the new data type in brackets immediately to the left of the thing we are trying to change.
+                values[index] = (int)Math.Pow(values[index], exponent);
+            }          
         }
     }
 }
