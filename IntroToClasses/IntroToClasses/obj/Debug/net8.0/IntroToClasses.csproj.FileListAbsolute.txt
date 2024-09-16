@@ -1,0 +1,14 @@
+\\Mac\Home\Desktop\CPSC1517 1241\Demo Projects\IntroToClasses\IntroToClasses\bin\Debug\net8.0\IntroToClasses.exe
+\\Mac\Home\Desktop\CPSC1517 1241\Demo Projects\IntroToClasses\IntroToClasses\bin\Debug\net8.0\IntroToClasses.deps.json
+\\Mac\Home\Desktop\CPSC1517 1241\Demo Projects\IntroToClasses\IntroToClasses\bin\Debug\net8.0\IntroToClasses.runtimeconfig.json
+\\Mac\Home\Desktop\CPSC1517 1241\Demo Projects\IntroToClasses\IntroToClasses\bin\Debug\net8.0\IntroToClasses.dll
+\\Mac\Home\Desktop\CPSC1517 1241\Demo Projects\IntroToClasses\IntroToClasses\bin\Debug\net8.0\IntroToClasses.pdb
+\\Mac\Home\Desktop\CPSC1517 1241\Demo Projects\IntroToClasses\IntroToClasses\obj\Debug\net8.0\IntroToClasses.GeneratedMSBuildEditorConfig.editorconfig
+\\Mac\Home\Desktop\CPSC1517 1241\Demo Projects\IntroToClasses\IntroToClasses\obj\Debug\net8.0\IntroToClasses.AssemblyInfoInputs.cache
+\\Mac\Home\Desktop\CPSC1517 1241\Demo Projects\IntroToClasses\IntroToClasses\obj\Debug\net8.0\IntroToClasses.AssemblyInfo.cs
+\\Mac\Home\Desktop\CPSC1517 1241\Demo Projects\IntroToClasses\IntroToClasses\obj\Debug\net8.0\IntroToClasses.csproj.CoreCompileInputs.cache
+\\Mac\Home\Desktop\CPSC1517 1241\Demo Projects\IntroToClasses\IntroToClasses\obj\Debug\net8.0\IntroToClasses.dll
+\\Mac\Home\Desktop\CPSC1517 1241\Demo Projects\IntroToClasses\IntroToClasses\obj\Debug\net8.0\refint\IntroToClasses.dll
+\\Mac\Home\Desktop\CPSC1517 1241\Demo Projects\IntroToClasses\IntroToClasses\obj\Debug\net8.0\IntroToClasses.pdb
+\\Mac\Home\Desktop\CPSC1517 1241\Demo Projects\IntroToClasses\IntroToClasses\obj\Debug\net8.0\IntroToClasses.genruntimeconfig.cache
+\\Mac\Home\Desktop\CPSC1517 1241\Demo Projects\IntroToClasses\IntroToClasses\obj\Debug\net8.0\ref\IntroToClasses.dll
