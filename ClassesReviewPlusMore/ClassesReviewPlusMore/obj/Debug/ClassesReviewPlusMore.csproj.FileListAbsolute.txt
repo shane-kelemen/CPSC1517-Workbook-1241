@@ -1,0 +1,12 @@
+\\Mac\Home\Desktop\CPSC1517 1241\Demo Projects\ClassesReviewPlusMore\ClassesReviewPlusMore\bin\Debug\ClassesReviewPlusMore.exe.config
+\\Mac\Home\Desktop\CPSC1517 1241\Demo Projects\ClassesReviewPlusMore\ClassesReviewPlusMore\bin\Debug\ClassesReviewPlusMore.exe
+\\Mac\Home\Desktop\CPSC1517 1241\Demo Projects\ClassesReviewPlusMore\ClassesReviewPlusMore\bin\Debug\ClassesReviewPlusMore.pdb
+\\Mac\Home\Desktop\CPSC1517 1241\Demo Projects\ClassesReviewPlusMore\ClassesReviewPlusMore\bin\Debug\GDIDrawer.dll
+\\Mac\Home\Desktop\CPSC1517 1241\Demo Projects\ClassesReviewPlusMore\ClassesReviewPlusMore\obj\Debug\ClassesReviewPlusMore.csproj.AssemblyReference.cache
+\\Mac\Home\Desktop\CPSC1517 1241\Demo Projects\ClassesReviewPlusMore\ClassesReviewPlusMore\obj\Debug\ClassesReviewPlusMore.Form1.resources
+\\Mac\Home\Desktop\CPSC1517 1241\Demo Projects\ClassesReviewPlusMore\ClassesReviewPlusMore\obj\Debug\ClassesReviewPlusMore.Properties.Resources.resources
+\\Mac\Home\Desktop\CPSC1517 1241\Demo Projects\ClassesReviewPlusMore\ClassesReviewPlusMore\obj\Debug\ClassesReviewPlusMore.csproj.GenerateResource.cache
+\\Mac\Home\Desktop\CPSC1517 1241\Demo Projects\ClassesReviewPlusMore\ClassesReviewPlusMore\obj\Debug\ClassesReviewPlusMore.csproj.CoreCompileInputs.cache
+\\Mac\Home\Desktop\CPSC1517 1241\Demo Projects\ClassesReviewPlusMore\ClassesReviewPlusMore\obj\Debug\ClassesReviewPlusMore.csproj.CopyComplete
+\\Mac\Home\Desktop\CPSC1517 1241\Demo Projects\ClassesReviewPlusMore\ClassesReviewPlusMore\obj\Debug\ClassesReviewPlusMore.exe
+\\Mac\Home\Desktop\CPSC1517 1241\Demo Projects\ClassesReviewPlusMore\ClassesReviewPlusMore\obj\Debug\ClassesReviewPlusMore.pdb
