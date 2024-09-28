@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34330.188
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TDDExampleTests", "TDDExampleTests\TDDExampleTests.csproj", "{1C97221D-9359-4883-B316-181E4DB681F3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmploymentSystem", "EmploymentSystem\EmploymentSystem.csproj", "{2EC3041F-FCF9-4239-B582-0914E1A35AD4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1C97221D-9359-4883-B316-181E4DB681F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C97221D-9359-4883-B316-181E4DB681F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C97221D-9359-4883-B316-181E4DB681F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C97221D-9359-4883-B316-181E4DB681F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2EC3041F-FCF9-4239-B582-0914E1A35AD4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2EC3041F-FCF9-4239-B582-0914E1A35AD4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2EC3041F-FCF9-4239-B582-0914E1A35AD4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2EC3041F-FCF9-4239-B582-0914E1A35AD4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5DEF7FC0-03D2-4857-BB10-668E22773496}
+	EndGlobalSection
+EndGlobal
