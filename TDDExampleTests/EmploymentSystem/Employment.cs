@@ -92,6 +92,8 @@
 
         public DateTime StartDate { get; set; }  // Only a Fact test will be required when 
                                                  // automatic properties are involved.
+
+        public List<WriteUp> WriteUps { get; set; }
         #endregion
 
         #region Constructors
@@ -99,11 +101,35 @@
         // constructors are defined for the class.  Generally, a default constructor is required for
         // testing the properties before testing anything else.  After the properties are completed,
         // explicit constructors may be build leveraging the properties for assignment.
-        public Employment()
-        {
+        public Employment() 
+            // using "this" after the colon allows you to call one of the other constructors in the class.
+            // This is one form of leveraging, where we use the algorithm in one constructor to simplify
+            // the code in another constructor.  Basically, so you do not write the code twice.
+            : this("Hello World!", SupervisoryLevel.TeamMember, DateTime.Today, null, 10)
+        { 
+        
+        }
 
+
+
+
+
+        public Employment(string title, SupervisoryLevel level, DateTime startDate, List<WriteUp> writeUps, double years = 0.0)
+        {
+            Level = level;
+            Title = title;
+            Years = years;
+            StartDate = startDate;
+            WriteUps = writeUps;
         }
         #endregion
 
+
+        #region Methods
+        public override string ToString()
+        {
+            return $"{Title},{Level},{StartDate.ToShortDateString()},{Years}";
+        }
+        #endregion
     }
 }
