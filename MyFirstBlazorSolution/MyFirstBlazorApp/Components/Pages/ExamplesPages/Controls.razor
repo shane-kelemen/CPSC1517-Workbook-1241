@@ -1,0 +1,48 @@
+﻿@page "/controls"
+
+<PageTitle>Various Controls</PageTitle>
+
+<h1>Controls</h1>
+<h3>Using Multiple Components</h3>
+
+<!-- You may add specific page head elements for a single razor component by using the
+     HeadContent tag -->
+<HeadContent>
+    <link href="~/StyleSheet.css" rel="stylesheet" />
+</HeadContent>
+
+
+<!-- The classes in use in the following divs are from bootstrap.  Bootstrap divides the page
+     into 12 columns which may be grouped together as shown in the divs classes with col-md-X,
+     where the X is the number of the columns to group together.  They must of course add up to 12.
+-->
+<section class="row">
+
+    <!-- Note that the long tags in the following divs correspond to the names of other components.
+         They may be used as organizational tools so that a single page does not become overly long. 
+    -->
+    <div class="col-md-4">
+
+        <ControlsTextboxes />
+    </div>
+
+    <div class="col-md-4">
+
+        <ControlsRadioCheckboxTextArea />
+    </div>
+
+    <div class="col-md-4">
+
+        <ControlsListAndSlider />
+    </div>
+
+</section>
+
+
+
+
+
+
+@code {
+
+}

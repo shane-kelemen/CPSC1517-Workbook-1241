@@ -1,0 +1,51 @@
+﻿
+<!-- Note how there is no "at"page directive in this component.  This means the component cannot
+     be navigated to directly, but it may be used in other components by using its name in tag form.
+-->
+<h5>ControlsTextboxes</h5>
+
+<label>Password Input : 
+<input type="password" @bind="passwordText" placeholder="Enter Password" /></label>
+<br />
+<br />
+
+<label>
+    Email Input :
+    <input type="email" @bind="emailText" placeholder="Enter email" />
+</label>
+<br />
+<br />
+
+<label>
+    Date Input :
+    <input type="date" @bind="dateText" placeholder="Enter date" />
+</label>
+<br />
+<br />
+<input type="submit" value="Textbox Test" @onclick="ProcessTextboxes" />
+<br />
+<br />
+<p>@textboxFeedback</p>
+
+
+
+
+
+@code {
+    private string passwordText = "";
+    private string emailText = "";
+    private DateTime dateText;
+    private string textboxFeedback = "";
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        dateText = DateTime.Today;
+    }
+
+    private void ProcessTextboxes()
+    {
+        textboxFeedback = $"Password : {passwordText} - Email : {emailText} - Date : {dateText.ToShortDateString()}";
+    }
+}

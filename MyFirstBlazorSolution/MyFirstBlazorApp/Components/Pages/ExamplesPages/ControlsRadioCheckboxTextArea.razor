@@ -1,0 +1,63 @@
+﻿<h5>ControlsRadioCheckboxTextArea</h5>
+
+<label>Select Your Favourite Meal : </label>
+<br />
+
+<InputRadioGroup Name="shortMealRadio" @bind-Value="@selectedMeal">
+    <!-- C# constructs may be integrated into the markup in a razor component for dynamic
+         action, generally creation of controls or display of data.
+         The "at" symbol must be used to initiate any C# usage. -->
+    @foreach(string meal in mealOptions)
+    {
+        <!-- The following shows how the loop variable may be accessed in a couple different ways. -->
+        <InputRadio Name="shortMealRadio" Value="@meal" /> @($" {meal}") <br />
+    }
+
+</InputRadioGroup>
+
+<br />
+<br />
+
+<div class="form-check">
+    <input type="checkbox" class="form-check-input" id="exampleCheckbox" @bind="acceptanceCheck" />
+    <label class="form-check-label" for="exampleCheckbox">I accept the terms!</label>
+</div>
+
+<br />
+<br />
+
+<label>
+    Message<br />
+    <textarea rows="10" cols="60" placeholder="Enter a message" 
+                                            @bind="messageBody">@messageBody</textarea>
+</label>
+
+<br />
+<br />
+
+<button type="submit" @onclick="RadioCheckArea">
+    Radio / Check / Area Submit
+</button>
+
+<br />
+<br />
+
+<p>@rcaFeedback</p>
+
+
+
+
+
+
+@code {
+    private List<string> mealOptions = new List<string> { "Breakfast", "Lunch", "Supper", "Snack" };
+    private string selectedMeal = "";
+    private bool acceptanceCheck = false;
+    private string messageBody = "";
+    private string rcaFeedback = "";
+
+    private void RadioCheckArea()
+    {
+        rcaFeedback = $"Meal : {selectedMeal} - Accept : {acceptanceCheck} - Message : {messageBody}";
+    }
+}

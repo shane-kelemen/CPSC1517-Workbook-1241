@@ -1,0 +1,124 @@
+﻿@page "/basicevents"
+
+<PageTitle>Basic Button Events</PageTitle>
+
+<!-- If the "at"rendermode has not been included in the App.razor
+    file, then you must include it so that form objects work properly -->
+<!-- "at"rendermode InteractiveServer -->
+
+
+<h1>Basic Button Events</h1>
+
+<h5>Learning About Buttons and Events - Basic C# Interaction</h5>
+
+<blockquote style="background-color:burlywood">
+    This page will demonstrate the basics of button events.  It will use
+    an input control to as for user input.  A button control will be included
+    to initiate processing of the input. The result will be displayed to a
+    "label".  C# code will be used to complete the processing.
+</blockquote>
+
+<!-- The following is a link to a variable in the C# code block that will display the 
+     value contained in the variable. The "at" symbol is needed before the variable name
+     to forge the link. -->
+<p>@welcomeMsg</p>
+
+<br /><br />
+
+<label for="inputControl">Enter an H for Heads or T for Tails : </label>
+<input id="inputControl" type="text" maxlength="1" placeholder="eg. : H" 
+        @bind="inputValue"/> <!-- The bind connects the value in the textbox to the variable
+                                  in the C# code block. -->
+<br />
+<!-- For buttons and other controls that you set up events for, just use the name of the event
+     to let the ASP engine know wich method is to be executed when the event occurs.  Again, note the 
+     "at" symbol in front of the event name. -->
+<button type="submit" @onclick="Game" class="btn btn-outline-primary">
+    Enter
+</button>
+&nbsp;&nbsp;
+<button type="submit" @onclick="Clear" class="btn btn-outline-primary">
+    Clear
+</button>
+<br /><br />
+<p>@outputMsg</p>
+
+
+
+@code {
+    // Just like in a class in a console or unit testing app, access specification 
+    // modifiers determine how the variables may be accessed.  In this case they are private to
+    // the page class.
+    private string welcomeMsg = "";
+    private string inputValue = "";
+    private string outputMsg = "";
+
+    // This method is very similar to the document.onload event in Javascript
+    protected override void OnInitialized()
+    {
+        // Make sure the core is Initialized first
+        base.OnInitialized();
+
+        // THen any controls you wish to inititalize or other variables may be created / intial
+        // values set.
+        welcomeMsg = "Hi, this is my first Blazor variable";
+    }
+
+    // This method is for no other purpose than emptying our outputMsg variable
+    private void Clear()
+    {
+        outputMsg = "";
+    }
+
+    // Process the player's guess
+    private void Game()
+    {
+        // We need a random number generator
+        Random rng = new Random();
+        int computerFlip = rng.Next(2);     // Generate the computer's Heads/Tails value
+
+        // Convert the player's entered value to a numeric value that can be compared to the 
+        // computer's value.  Note the use of a compound conditional statement.  This is like having an 
+        // if-else statement in the middle of a line of code.  The commented out if-else if-else ladder
+        // equivalent is commented following the more elegant one line statement.
+        int playerFlip = inputValue == "H" ? 0 : inputValue == "T" ? 1 : 2;
+        // int playerFlip;
+        // if (inputValue == "H")
+        // {
+        //      playerFlip = 0;
+        // }
+        // else if (inputValue == "T")
+        // {
+        //      playerFlip = 1;  
+        // }
+        // else
+        // {
+        //      playerFlip = 2;
+        // }
+
+        // Determine the output message based on the player's value conversion.
+        // Sentinel check to account for values other than those sought.  Return from method
+        // if sentinel condition triggered.
+        if (playerFlip == 2)
+        {
+            outputMsg = "You have not entered an H for Heads or T for Tails!";
+            return;
+        }
+
+        // If the values are both valid, indicate matched values or not.
+        if (playerFlip == computerFlip)
+        {
+            outputMsg = "You guessed the computer's flip value!";
+        }
+        else
+        {
+            outputMsg = "You have NOT guessed the computer's flip value.";
+        }
+
+        // Convert the computer's value to a string for display to the user.  Not that the brackets
+        // are necessary in this case to make sure that the conditional is evaluated before it is 
+        // concatonated to the front part of the string.  Otherwise, computerFlip will be concatonated 
+        // first and then a comparison error will occur between the string and the integer value of 0.
+        outputMsg += "  Computer flipped " + (computerFlip == 0? "Heads" : "Tails");
+    }
+}
