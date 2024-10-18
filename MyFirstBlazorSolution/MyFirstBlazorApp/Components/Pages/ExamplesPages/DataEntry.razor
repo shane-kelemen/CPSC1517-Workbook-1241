@@ -1,0 +1,81 @@
+﻿@page "/dataentry"
+
+<PageTitle>Data Entry</PageTitle>
+
+<h3>DataEntry</h3>
+
+<div class="row"> <!-- Bootstrap to turn screen into 12 blocks horizontally -->
+    <div class="offset-1 col-md-10"> <!-- Bootstrap to create an space 10 of the blocks wide starting one 
+                                            block from the left hand side of the screen-->
+        <blockquote style="background-color:gainsboro;">
+            <p>
+                This component will demonstrate how your page can handle validation of data input,
+                showing validation messages when you have a number of controls for data entry. This
+                component will validate the locate controls and create any validation messages for
+                invalid data. The messages can be collected using various techniques such as: List or
+                Dictionary.
+            </p>
+            <p>
+                This page will input data for an instance of the Employment class. This demo will
+                use the Employment class from the OOPs review. The SupervisoryLevel enum
+                class will also be brought into this project. One could have included the entire
+                class library as part of this solution instead of bringing in individual classes.
+            </p>
+            <p>
+                One could have included an entire project and used the classes from within, but we have 
+                already created a class library for this project and so will use it instead.  If at all 
+                possible, it is best practice to include the various projects in the same solution, 
+                but this will not always be possible as you are not always creating all of the projects.
+            </p>
+        </blockquote>
+    </div>
+</div>
+
+@if (feedback.Length > 0)
+{
+    <div class="alert alert-info"> <!-- Bootstrap for div colouring -->
+        <p>@feedback</p>
+    </div>
+}
+
+<!-- Do the following only if there are error messages.  Style choice of where to put this on the page -->
+@if (errorMessages.Count > 0)
+{
+    <p>Please fix the following issues :</p>
+    <ul>
+        <!-- This following way of accessing the items in the Dictionary allows
+            us to directly display the contents of the inner values List collection.
+
+            "at"foreach (string error in errorMessages.Values)
+            {
+                <li>"at"error</li>
+            }
+        -->
+
+        <!-- This is a more explicit way of remembering what the data type is that
+            you are dealing with inside the Dictionary.
+
+        "at"foreach(KeyValuePair<string,string> error in errorMessages)
+        {
+            <li>"at"error.Value</li>
+        }
+         -->
+
+         <!-- This following is probably the "cleanest" way to access the Dictionary
+              key/value pairs with the most flexibility but the easiest amount of code
+              to write.  However, it requires you to keep in mind what it is that you
+              are accessing.  The following will display each text detailed error
+              message as an unordered list item.
+         -->
+        @foreach (var error in errorMessages)
+        {
+            <li>@error.Value</li>
+        }
+    </ul>
+}
+
+
+
+@code {
+    // moved all code to a separate physical file called DataEntry.razor.cs
+}

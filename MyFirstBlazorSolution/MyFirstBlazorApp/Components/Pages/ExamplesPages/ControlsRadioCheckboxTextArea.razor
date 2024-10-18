@@ -50,12 +50,15 @@
 
 
 @code {
+    // Initializing the variables needed in the page
     private List<string> mealOptions = new List<string> { "Breakfast", "Lunch", "Supper", "Snack" };
     private string selectedMeal = "";
     private bool acceptanceCheck = false;
     private string messageBody = "";
     private string rcaFeedback = "";
 
+    // This method will set the feedback variable for the page to the concatonation of the values entered
+    // in each of the controls.
     private void RadioCheckArea()
     {
         rcaFeedback = $"Meal : {selectedMeal} - Accept : {acceptanceCheck} - Message : {messageBody}";
