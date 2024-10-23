@@ -75,6 +75,98 @@
 }
 
 
+<fieldset>
+    <legend>Employment Data</legend>
+
+    <div class="row">
+        <div class="col-md-2">
+            <label for="title">Position Title : </label>
+        </div>
+        <div class="col-md-2">
+            <input type="text" id="title" @bind="employmentTitle" 
+                placeholder="Enter position title" />
+        </div>
+    </div>
+    
+    <br />
+
+    <div class="row">
+        <div class="col-md-2">
+            <label for="startDate">Start Date : </label>
+        </div>
+        <div class="col-md-2">
+            <input type="date" id="startDate" @bind="startDate" />
+        </div>
+    </div>
+
+    <br />
+
+    <div class="row">
+        <div class="col-md-2">
+            <label for="years">Years in Position : </label>
+        </div>
+        <div class="col-md-2">
+            <input type="number" id="years" @bind="employedYears" 
+                step="0.1" min="0" style="width:75px;"
+                placeholder="ex: 3.4"/>
+        </div>
+    </div>
+
+    <br />
+
+    <div class="row">
+        <div class="col-md-2">
+            <label for="level">Select SuperVisory Level : </label>
+        </div>
+        <div class="col-md-2">
+            <select @bind="employmentLevel">
+                <option value="None">Select...</option>
+
+                @foreach (var item in Enum.GetValues(typeof(SupervisoryLevel)))
+                {
+                    <option value="@item">@item</option>
+                }
+            </select>
+        </div>
+    </div>
+
+    <br />
+
+    <div class="row">
+        <div class="col-md-12 text-center">
+
+            <button type="submit" class="btn btn-outline-primary rounded-pill"
+                    @onclick="CollectEmploymentInfo">
+                Submit Employment Info
+                </button>
+            &nbsp;&nbsp;
+
+            <button type="submit" class="btn btn-outline-secondary rounded-pill"
+                    @onclick="Clear" style="width:200px;">
+                Clear
+            </button>
+            &nbsp;&nbsp;
+
+            <button type="submit" class="btn btn-outline-secondary rounded-pill"
+                    @onclick="GoToReport">
+                Go To Report Via Method Call
+            </button>
+            &nbsp;&nbsp;
+
+            <button type="submit" class="btn btn-outline-secondary rounded-pill"
+                    >
+                <a href="report">Go To Report Via Anchor</a>
+            </button>
+            &nbsp;&nbsp;
+
+        </div>
+    </div>
+
+</fieldset>
+
+
+
+
 
 @code {
     // moved all code to a separate physical file called DataEntry.razor.cs
