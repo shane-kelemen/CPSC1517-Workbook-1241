@@ -31,50 +31,13 @@
     </div>
 </div>
 
-@if (feedback.Length > 0)
-{
-    <div class="alert alert-info"> <!-- Bootstrap for div colouring -->
-        <p>@feedback</p>
-    </div>
-}
+<br />
 
-<!-- Do the following only if there are error messages.  Style choice of where to put this on the page -->
-@if (errorMessages.Count > 0)
-{
-    <p>Please fix the following issues :</p>
-    <ul>
-        <!-- This following way of accessing the items in the Dictionary allows
-            us to directly display the contents of the inner values List collection.
-
-            "at"foreach (string error in errorMessages.Values)
-            {
-                <li>"at"error</li>
-            }
-        -->
-
-        <!-- This is a more explicit way of remembering what the data type is that
-            you are dealing with inside the Dictionary.
-
-        "at"foreach(KeyValuePair<string,string> error in errorMessages)
-        {
-            <li>"at"error.Value</li>
-        }
-         -->
-
-         <!-- This following is probably the "cleanest" way to access the Dictionary
-              key/value pairs with the most flexibility but the easiest amount of code
-              to write.  However, it requires you to keep in mind what it is that you
-              are accessing.  The following will display each text detailed error
-              message as an unordered list item.
-         -->
-        @foreach (var error in errorMessages)
-        {
-            <li>@error.Value</li>
-        }
-    </ul>
-}
-
-
+<!-- The following fieldset contains the controls that will collect the information 
+     needed to create an Employment class instance.  Note that each has been placed
+     in its own div with two embedded divs to hold the label and control respectively.
+     This will help with alignment of the controls.
+-->
 <fieldset>
     <legend>Employment Data</legend>
 
@@ -121,9 +84,14 @@
         <div class="col-md-2">
             <select @bind="employmentLevel">
                 <option value="None">Select...</option>
-
+                <!-- Remember that the GetValues() method will return all of the
+                     defined values in an enumeration.
+                -->
                 @foreach (var item in Enum.GetValues(typeof(SupervisoryLevel)))
                 {
+                    <!-- When the only information available is a display string
+                         it may be used for both the display tesxt and the value
+                    -->
                     <option value="@item">@item</option>
                 }
             </select>
@@ -132,6 +100,11 @@
 
     <br />
 
+    <!-- Note that all of the CSS classes you see below, as well as those above
+         are part of the Bootstrap add-on.  If you wish to delve into Bootstrap
+         more you may take a look at https://www.w3schools.com/bootstrap/default.asp
+         for a decent starter tutorial.
+    -->
     <div class="row">
         <div class="col-md-12 text-center">
 
@@ -164,7 +137,53 @@
 
 </fieldset>
 
+<br />
+<br />
 
+@if (feedback.Length > 0)
+{
+    <div class="alert alert-info">
+        <!-- Bootstrap for div colouring -->
+        <p>@feedback</p>
+    </div>
+}
+
+<!-- Do the following only if there are error messages.  Style choice of where to put this on the page -->
+@if (errorMessages.Count > 0)
+{
+    <div class="alert alert-danger">
+        <p>Please fix the following issues :</p>
+        <ul>
+            <!-- This following way of accessing the items in the Dictionary allows
+                us to directly display the contents of the inner values List collection.
+
+                "at"foreach (string error in errorMessages.Values)
+                {
+                    <li>"at"error</li>
+                }
+            -->
+            <!-- This is a more explicit way of remembering what the data type is that
+                you are dealing with inside the Dictionary.
+
+            "at"foreach(KeyValuePair<string,string> error in errorMessages)
+            {
+                <li>"at"error.Value</li>
+            }
+             -->
+            <!-- This following is probably the "cleanest" way to access the Dictionary
+                 key/value pairs with the most flexibility but the easiest amount of code
+                 to write.  However, it requires you to keep in mind what it is that you
+                 are accessing.  The following will display each text detailed error
+                 message as an unordered list item.
+            -->
+            @foreach (var error in errorMessages)
+            {
+                <li>@error.Value</li>
+            }
+
+        </ul>
+    </div>
+}
 
 
 
