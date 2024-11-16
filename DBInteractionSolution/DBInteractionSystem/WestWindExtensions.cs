@@ -22,6 +22,9 @@ namespace DBInteractionSystem
         {
             services.AddDbContext<WestWindContext>(options);
 
+            // For every new Service class added in the BLL folder, a new Transient will be required.  The only thing you 
+            // should have to change is the name of the Service class.  Everything else should be identical if still using the 
+            // same database, and thus the same context.
             services.AddTransient<RegionServices>(serviceProvider =>
             {
                 var context = serviceProvider.GetService<WestWindContext>();
