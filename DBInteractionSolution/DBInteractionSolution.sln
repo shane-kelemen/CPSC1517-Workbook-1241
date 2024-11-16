@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34330.188
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DBInteractionWebApp", "DBInteractionWebApp\DBInteractionWebApp.csproj", "{C8318E87-75D0-4852-96AA-505398F9CDAB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DBInteractionSystem", "DBInteractionSystem\DBInteractionSystem.csproj", "{4D8299FD-B85A-4AFA-9D72-BBEE0DDFD9BA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C8318E87-75D0-4852-96AA-505398F9CDAB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8318E87-75D0-4852-96AA-505398F9CDAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8318E87-75D0-4852-96AA-505398F9CDAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8318E87-75D0-4852-96AA-505398F9CDAB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D8299FD-B85A-4AFA-9D72-BBEE0DDFD9BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D8299FD-B85A-4AFA-9D72-BBEE0DDFD9BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D8299FD-B85A-4AFA-9D72-BBEE0DDFD9BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D8299FD-B85A-4AFA-9D72-BBEE0DDFD9BA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F058FE59-4076-4139-A053-D3850D94E7BB}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,70 @@
+﻿@page "/regions"
+
+<PageTitle>Regions</PageTitle>
+
+<h1>Region Query</h1>
+<h4>...single record query</h4>
+
+<div class="row">
+    <div class="col-md-6">
+        <p>
+            <strong>Input of Query Values</strong>
+        </p>
+        <p>
+             <label for="regionID">Enter a Region ID : </label>
+             <input id="regionID" type="number" @bind="regionArg" style="width:75px;" />
+             <button type="submit" class="btn btn-outline-secondary rounded-pill"
+                    @onclick="GetByID">Fetch By Region ID</button>
+        </p>
+        <p>
+            <label for="regionDesc">Select By Description : </label>
+            <select id="regionDesc" @bind="regionSelect" style="width: 200px;">
+                <option value="0">Select a Region...</option>
+                @foreach(var region in regions)
+                {
+                    <option value="@region.RegionID">@region.RegionDescription</option>
+                }
+            </select>
+            <button type="submit" class="btn btn-outline-secondary rounded-pill"
+                    @onclick="GetBySelect">
+                Fetch By Selection
+            </button>
+        </p>
+    </div>
+    <div class="col-md-6">
+        <p>
+            <strong>Display Result of Query</strong>
+        </p>
+        <p>
+            @if(regionInfo != null)
+            {
+                <p>Region ID : @regionInfo.RegionID</p>
+                <p>Description : @regionInfo.RegionDescription</p>
+            }
+            else
+            {
+                <p>No region information was found for the input data</p>
+            }
+        </p>
+    </div>
+</div
+
+@if (feedback.Length > 0)
+{
+    <div class="alert alert-info">
+        <p>@feedback</p>
+    </div>
+}
+
+@if(errorMessages.Count > 0)
+{
+    <div class="alert alert-danger">
+        <p>Please fix the following errors:</p>
+        <ul>
+            @foreach(string error in errorMessages)
+            {
+                <li>@error</li>
+            }
+        </ul>
+    </div>
+}
