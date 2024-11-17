@@ -10,13 +10,14 @@ namespace DBInteractionWebApp
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Retrieve the connection string from the appsetting.json
+            // Retrieve the connection string from the appsettings.json
             // The connection string will be passed to the class library using the encapsulated
             //      extension method
             // The connection string will be registered to get access to the database
             var connectionString = builder.Configuration.GetConnectionString("WWDB");
 
-
+            // Call the ExtensionsServices method in your system library to provide the connection string
+            // from the web application that you wish to use to communicate with the database.
             builder.Services.WestWindExtensionServices(options => options.UseSqlServer(connectionString));
 
 
