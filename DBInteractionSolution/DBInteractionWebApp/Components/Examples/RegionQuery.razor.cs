@@ -10,6 +10,7 @@ namespace DBInteractionWebApp.Components.Examples
         // Data Members (Fields)
         private string feedback = string.Empty;                    // For feedback variable on the razor page
         private List<string> errorMessages = new List<string>();   // For storing error messages to be displayed on the razor page
+       
         private int regionArg = 0;                                 // For storing the user's input to the numeric control
         private int regionSelect = 0;                              // For storing the user's selection by region description
         private List<Region> regions = null;                       // For storing all of the Regions to be used for populating the select control on the razor page
