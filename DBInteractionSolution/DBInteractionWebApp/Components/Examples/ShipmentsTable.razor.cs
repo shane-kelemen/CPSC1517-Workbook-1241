@@ -43,6 +43,14 @@ namespace DBInteractionWebApp.Components.Examples
                 {
                     shipments = ShipmentServices.Shipment_GetByYearAndMonth(yearArg, monthArg);
                 }
+                catch (AggregateException ex)
+                {
+                    //errorMessages.Add(ex.Message);
+                    foreach(Exception exception in ex.InnerExceptions)
+                    {
+                        errorMessages.Add(exception.Message);
+                    }
+                }
                 catch(Exception ex)
                 {
                     errorMessages.Add("Unexpected System Error : " + ex.Message);
