@@ -8,6 +8,9 @@
 <h4>... example of maintaining a database record</h4>
 
 
+<EditForm EditContext="@editContext">
+    <DataAnnotationsValidator />
+
 <div class="row">
     <div class="offset-1 col-md-4">
 
@@ -21,6 +24,7 @@
         <InputText @bind-Value="CurrentProduct.ProductName"
                      class="form-control" id="productName" 
                      placeholder="Product Name" />
+        <ValidationMessage For="@(() => CurrentProduct.ProductName)" />
         <br /><br />
 
         <label for="categoryID" class="form-label">Category : </label>
@@ -33,7 +37,8 @@
                             selected="@(category.CategoryID == CurrentProduct.CategoryID)">
                                     @category.CategoryName</option>
                }
-        </InputSelect>                
+        </InputSelect>
+        <ValidationMessage For="@(() => CurrentProduct.CategoryID)" />
         <br /><br />
 
         <label for="supplierID" class="form-label">Supplier : </label>
@@ -48,6 +53,7 @@
                 </option>
             }
         </InputSelect>
+        <ValidationMessage For="@(() => CurrentProduct.SupplierID)" />
         <br /><br />
 
     </div>
@@ -58,24 +64,28 @@
         <InputText @bind-Value="CurrentProduct.QuantityPerUnit"
                    class="form-control" id="quantityPerUnit"
                    placeholder="Description of Product" />
+        <ValidationMessage For="@(() => CurrentProduct.QuantityPerUnit)" />
         <br /><br />
 
         <label for="unitPrice" class="form-label">Unit Price : </label>
         <InputNumber @bind-Value="CurrentProduct.UnitPrice"
                      class="form-control" id="unitPrice" 
                      style="width: 75px" />
+        <ValidationMessage For="@(() => CurrentProduct.UnitPrice)" />
         <br /><br />
 
         <label for="minimumOrderQuantity" class="form-label">Minimum Order Quantity : </label>
         <InputNumber @bind-Value="CurrentProduct.MinimumOrderQuantity"
                      class="form-control" id="minimumOrderQuantity" 
                      style="width: 75px" />
+        <ValidationMessage For="@(() => CurrentProduct.MinimumOrderQuantity)" />
         <br /><br />
 
         <label for="unitsOnOrder" class="form-label">Units On Order : </label>
         <InputNumber @bind-Value="CurrentProduct.UnitsOnOrder"
                      class="form-control" id="unitsOnOrder" 
                      style="width: 75px" />
+        <ValidationMessage For="@(() => CurrentProduct.UnitsOnOrder)" />
         <br /><br />
 
     </div>
@@ -88,8 +98,9 @@
         </button>
     </div>
 </div>
-
-
+    <br /><br />
+    <ValidationSummary />
+</EditForm>
 
 
 

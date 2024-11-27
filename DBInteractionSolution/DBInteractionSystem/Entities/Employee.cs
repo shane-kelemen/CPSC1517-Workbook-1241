@@ -23,6 +23,10 @@ public partial class Employee
     [StringLength(10)]
     public string FirstName { get; set; }
 
+    [NotMapped]
+    [StringLength(31)]
+    public string FullName { get => FirstName + " " + LastName; }
+
     [StringLength(25)]
     public string TitleOfCourtesy { get; set; }
 
