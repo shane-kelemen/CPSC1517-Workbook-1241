@@ -1,5 +1,7 @@
 ﻿using DBInteractionSystem.DAL;
 using DBInteractionSystem.Entities;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -149,6 +151,187 @@ namespace DBInteractionSystem.BLL
             // If the SaveChanges() method is successful, a ProductID will have been assigned to the product that we tried
             // to save.  We have decided to send it back to the user.
             return inputProduct.ProductID;
+        }
+
+
+        public int Product_Update(Product inputProduct)
+        {
+            List<Exception> errors = new List<Exception>();
+
+            if (inputProduct == null)
+            {
+                throw new ArgumentNullException("You must supply product information to be updated!");
+            }
+
+            bool exists = false;
+
+            exists = _westWindContext.Products.Any(product => product.ProductID == inputProduct.ProductID);
+
+            if(!exists)
+            {
+                throw new ArgumentException($"Product {inputProduct.ProductName} from {inputProduct.Supplier.CompanyName}"
+                                                + $"of size {inputProduct.QuantityPerUnit} does not exist on file!");
+            }
+
+
+            // All data should be checked to ensure it is legal.  An example check for the required ProductName
+            // is shown here.  Other data checks may include valid ranges for values such as >= 0 for UnitPrice.
+            // Appropriate messages should be added to the Exception collection as shown in the ProductName check.
+            if (string.IsNullOrWhiteSpace(inputProduct.ProductName))
+            {
+                errors.Add(new Exception("The product name must be provided!"));
+            }
+
+
+
+
+            // Check to see if the product with the provided features already exists 
+            exists = _westWindContext.Products
+                                    .Any(product => product.SupplierID == inputProduct.SupplierID
+                                                    && product.ProductName == inputProduct.ProductName
+                                                    && product.QuantityPerUnit == inputProduct.QuantityPerUnit
+                                                    && product.ProductID != inputProduct.ProductID);
+
+            // If the product with the provided features does exist, an an Exception with an appropriate and descriptive
+            // message to the Exception collection.
+            if (exists)
+            {
+                errors.Add(new Exception($"Product {inputProduct.ProductName} "
+                                            + $"from {inputProduct.Supplier.CompanyName} of size "
+                                            + $"{inputProduct.QuantityPerUnit} aleady exists on a different product!"));
+            }
+
+            // If any errors whatsoever are encountered, we must clear any changes that may have occurred
+            // successfully before throwing the exception that ends the method.
+            if (errors.Count > 0)
+            {
+                // The ChangeTracker stores all changes to be made to the database when a SaveChanges() call
+                // is used.  This would include any changes left over in the ChangeTracker during a failed 
+                // database operation.  Thus, we must Clear() the ChangeTracker on error detection.
+                _westWindContext.ChangeTracker.Clear();
+
+                throw new AggregateException("Server operation detected errors: ", errors);
+            }
+
+
+            EntityEntry<Product> updating = _westWindContext.Entry(inputProduct);
+            updating.State = EntityState.Modified;
+
+            int rowsAffected = 0;
+            try
+            {
+                rowsAffected = _westWindContext.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                _westWindContext.ChangeTracker.Clear();
+                throw ex;
+            }
+
+            return rowsAffected;
+        }
+
+
+        public int Product_LogicalDelete(Product inputProduct)
+        {
+            List<Exception> errors = new List<Exception>();
+
+            if (inputProduct == null)
+            {
+                throw new ArgumentNullException("You must supply product information to be updated!");
+            }
+
+            Product existingProduct = _westWindContext.Products.FirstOrDefault(product => product.ProductID == inputProduct.ProductID);
+
+            if (existingProduct == null)
+            {
+                throw new ArgumentException($"Product {inputProduct.ProductName} from {inputProduct.Supplier.CompanyName}"
+                                               + $"of size {inputProduct.QuantityPerUnit} does not exist on file!");
+            }
+
+            existingProduct.Discontinued = true;
+
+            EntityEntry<Product> discontinuing = _westWindContext.Entry(existingProduct);
+            discontinuing.State = EntityState.Modified;
+
+            int rowsAffected = 0;
+            try
+            {
+                rowsAffected = _westWindContext.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                _westWindContext.ChangeTracker.Clear();
+                throw ex;
+            }
+
+            return rowsAffected;
+        }
+
+
+        public int Product_PhysicalDelete(Product inputProduct)
+        {
+            List<Exception> errors = new List<Exception>();
+
+            if (inputProduct == null)
+            {
+                throw new ArgumentNullException("You must supply product information to be updated!");
+            }
+
+            bool exists = false;
+
+            
+            exists = _westWindContext.Products.Any(product => product.ProductID == inputProduct.ProductID);
+
+            if (!exists)
+            {
+                throw new ArgumentException($"Product {inputProduct.ProductName} from {inputProduct.Supplier.CompanyName}"
+                                                + $"of size {inputProduct.QuantityPerUnit} does not exist on file!");
+            }
+
+
+            exists = _westWindContext.Products.Any(product => product.ManifestItems.Count > 0
+                                                                && product.ProductID == inputProduct.ProductID);
+
+            if (exists)
+            {
+                errors.Add(new Exception($"Product {inputProduct.ProductName} from {inputProduct.Supplier.CompanyName}"
+                                                + $"of size {inputProduct.QuantityPerUnit} has associated manifest records on file!"
+                                                + "  Unable to remove!"));
+            }
+
+            exists = _westWindContext.Products.Any(product => product.OrderDetails.Count > 0
+                                                                && product.ProductID == inputProduct.ProductID);
+
+            if (exists)
+            {
+                errors.Add(new Exception($"Product {inputProduct.ProductName} from {inputProduct.Supplier.CompanyName}"
+                                                + $"of size {inputProduct.QuantityPerUnit} has associated order details records on file!"
+                                                + "  Unable to remove!"));
+            }
+
+            if (errors.Count > 0)
+            {
+                throw new AggregateException("There was a problem with the delete operation: ", errors);
+            }
+
+
+
+            EntityEntry<Product> deleting = _westWindContext.Entry(inputProduct);
+            deleting.State = EntityState.Deleted;
+
+            int rowsAffected = 0;
+            try
+            {
+                rowsAffected = _westWindContext.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                _westWindContext.ChangeTracker.Clear();
+                throw ex;
+            }
+
+            return rowsAffected;
         }
     }
 }
