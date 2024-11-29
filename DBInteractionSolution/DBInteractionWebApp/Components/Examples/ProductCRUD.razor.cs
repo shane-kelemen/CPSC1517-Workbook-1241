@@ -21,29 +21,44 @@ namespace DBInteractionWebApp.Components.Examples
 
 
         [Inject]
-        private ProductServices ProductServices { get; set; }
+        private ProductServices ProductServices { get; set; }      // Grants access to the methods in the ProductServices class of
+                                                                   // the system library.  Remember the [Inject].
 
         [Inject]
-        private CategoryServices CategoryServices { get; set; }
+        private CategoryServices CategoryServices { get; set; }    // Grants access to the methods in the CategoryServices class of
+                                                                   // the system library.  Remember the [Inject].
 
         [Inject]
-        private SupplierServices SupplierServices { get; set; }
+        private SupplierServices SupplierServices { get; set; }    // Grants access to the methods in the SupplierServices class of
+                                                                   // the system library.  Remember the [Inject].
 
 
+        /// <summary>
+        /// Time to Initialize the Blazor page controls
+        /// </summary>
         protected override void OnInitialized()
         {
             base.OnInitialized();
 
-            editContext = new EditContext(CurrentProduct);
-            validationMessageStore = new ValidationMessageStore(editContext);
+            // The following are required to make validation of data on the razor page possible
+            editContext = new EditContext(CurrentProduct);  // Create a context that will be applied to the CurrentProduct
+            validationMessageStore = new ValidationMessageStore(editContext);  // Create a ValidationStore for the EditContext just created
 
+            // Retrieve a List of all the Categories and Suppliers to poulate the select controls
             categories = CategoryServices.Categories_GetAll();
             suppliers = SupplierServices.Suppliers_GetAll();
         }
 
 
+        /// <summary>
+        /// This method will collect the information from the razor page and send it to the ProductService
+        /// class so that a database addition may be attempted.
+        /// </summary>
         private void OnCreate()
         {
+            // Reset all of the fields for feedback, error messaging, previous displayed validator errors,
+            // and the ProductID in case a previous submit was already successful which would cause the 
+            // ProductID to be something other than zero.
             feedback = "";
             errorMessages.Clear();
             validationMessageStore.Clear();
@@ -51,10 +66,16 @@ namespace DBInteractionWebApp.Components.Examples
 
             try
             {
+                // When a submit is attempted
                 if (editContext.Validate())
                 {
+                    // Check for illegal or missing data in any of the fields that you wish to check on the
+                    // client side
                     if (CurrentProduct.CategoryID == 0)
                     {
+                        // For any item where the data is unacceptable, add an error message to the message store
+                        // using the following pattern.  Notice it is consistent for all three checks included here
+                        // aside from the item being accessed in the CurrentProduct and the message text.
                         validationMessageStore.Add(editContext.Field(nameof(CurrentProduct.CategoryID)), 
                                                         "You must select a category");
                     }
@@ -71,10 +92,14 @@ namespace DBInteractionWebApp.Components.Examples
                                                         "The unit price must be greater than 0");
                     }
 
+                    // If there are any messages for the editContext
                     if(editContext.GetValidationMessages().Any())
                     {
+                        // Have those messages displayed
                         editContext.NotifyValidationStateChanged();
                     }
+                    // If there are no messages, proceed with a call to the ProductServices method for adding
+                    // a new Product to the database.  Display success feedback if no Exceptions are thrown.
                     else
                     {
                         int newProductID = ProductServices.Product_Add(CurrentProduct);
@@ -83,18 +108,18 @@ namespace DBInteractionWebApp.Components.Examples
                     }                 
                 }
             }
-            catch (ArgumentNullException ex)
+            catch (ArgumentNullException ex)  // Triggered if no Product instance is provided to the service method
             {
                 errorMessages.Add(ex.Message);
             }
-            catch (AggregateException ex)
+            catch (AggregateException ex)   // Triggered if data validation, business rules, or temporary data modifications encountered
             {
                 foreach(Exception inner in ex.InnerExceptions)
                 { 
                     errorMessages.Add(inner.Message);
                 }
             }
-            catch (Exception ex)
+            catch (Exception ex)    // Triggered if the final SaveChanges() operation throws an unexpected exception.
             {
                 errorMessages.Add(HelperClass.GetInnerException(ex).Message);
             }
