@@ -16,9 +16,19 @@ namespace DBInteractionWebApp.Components.Examples
         private Product CurrentProduct = new Product();            // For storing the current product information
         private List<Category> categories = new List<Category>();  // For storing the list of all available categories
         private List<Supplier> suppliers = new List<Supplier>();   // For storing the list of all available suppliers
-        
+        //private bool activateText = false;
+        //private string supplierText = string.Empty;
+
         private EditContext editContext;                           // To support the EditForm on the razor page
-        private ValidationMessageStore validationMessageStore;     // For storing the messages to be displayed beside the controls
+        private ValidationMessageStore validationMessageStore;     // For storing the messages to be displayed with the controls
+
+        [Parameter]
+        public int? productID { get; set; }                        // This is how we get a data piece that was passed into the
+                                                                   // page via the URL, specified in the @page directive.  Make 
+                                                                   // sure the data types match.  In this case we want to be able
+                                                                   // to access the page even if no information was available, 
+                                                                   // so we used a nullable data type, indicated by the ? after 
+                                                                   // the data type name.
 
 
         [Inject]
@@ -36,6 +46,9 @@ namespace DBInteractionWebApp.Components.Examples
         [Inject]
         private IJSRuntime JSRuntime { get; set; }                 // Making available a dialog that will wait for a user's response
 
+        [Inject]
+        private NavigationManager NavigationManager { get; set; }  // Allows us to jump to another page in the application
+
 
         /// <summary>
         /// Time to Initialize the Blazor page controls
@@ -44,6 +57,8 @@ namespace DBInteractionWebApp.Components.Examples
         {
             base.OnInitialized();
 
+            
+
             // The following are required to make validation of data on the razor page possible
             editContext = new EditContext(CurrentProduct);  // Create a context that will be applied to the CurrentProduct
             validationMessageStore = new ValidationMessageStore(editContext);  // Create a ValidationStore for the EditContext just created
@@ -51,6 +66,11 @@ namespace DBInteractionWebApp.Components.Examples
             // Retrieve a List of all the Categories and Suppliers to poulate the select controls
             categories = CategoryServices.Categories_GetAll();
             suppliers = SupplierServices.Suppliers_GetAll();
+
+            // We only want to retrieve product information if we were given a product ID.  If it was not provided, then
+            // the productID Parameter we defined above will be null and HasValue will be false.
+            if (productID.HasValue)
+                CurrentProduct = ProductServices.Product_GetByID((int)productID);   // Get the information for the product
         }
 
 
@@ -130,6 +150,10 @@ namespace DBInteractionWebApp.Components.Examples
         }
 
 
+        /// <summary>
+        /// The following method will collect data from the razor page and send the values to the service
+        /// for the purpose of the updating the database table record.        
+        /// </summary>
         void OnUpdate()
         {
             feedback = "";
@@ -173,7 +197,7 @@ namespace DBInteractionWebApp.Components.Examples
                     // If there are no messages, proceed with a call to the ProductServices method for adding
                     // a new Product to the database.  Display success feedback if no Exceptions are thrown.
                     else
-                    {
+                    { 
                         int rowsAffected = ProductServices.Product_Update(CurrentProduct);
 
                         if(rowsAffected != 0)
@@ -210,7 +234,10 @@ namespace DBInteractionWebApp.Components.Examples
             }
         }
 
-
+        /// <summary>
+        /// This method will call the update method in the service method in order to perform a "SOFT DELETE" of the 
+        /// database record by updating the Discontinued flag of the product to true.
+        /// </summary>
        void OnDiscontinue()
         {
             feedback = "";
@@ -291,7 +318,10 @@ namespace DBInteractionWebApp.Components.Examples
             }
         }
 
-
+        /// <summary>
+        /// This method will perform a PHYSICAL DELETE of a record in the database.  This should not be taken
+        /// lightly, and generally is only performed after the data to be deleted has been archived.
+        /// </summary>
         void OnDelete()
         {
             feedback = "";
@@ -372,14 +402,22 @@ namespace DBInteractionWebApp.Components.Examples
             }
         }
 
-
+        /// <summary>
+        /// This method will pop up a dialog that will seek input from the user.  In this case, 
+        /// we are seeking verification that the user wishes to clear the data from the form.
+        /// </summary>
+        /// <returns></returns>
         async Task OnClear()
         { 
+            // Set up the message to be displayed to the user.
             object[] messageLine = new object[] {"Clearing will lose all unsaved data."
                                                     + " Are you sure you want to clear the form?"};
 
+            // Cause the dialog to appear.  If the user presses OK, then "confirm" has taken place and the 
+            // if statement will run.
             if(await JSRuntime.InvokeAsync<bool>("confirm", messageLine))
             {
+                // Reset all of the important values for the page.
                 feedback = "";
                 errorMessages.Clear();
                 validationMessageStore.Clear();
@@ -388,6 +426,25 @@ namespace DBInteractionWebApp.Components.Examples
             }
         }
 
+        /// <summary>
+        /// This method will pop up a dialog that will seek input from the user.  In this case, 
+        /// we are seeking verification that the user wishes to leave the current page.
+        /// </summary>
+        /// <returns></returns>
+        async Task GoToCategoryProducts()
+        {
+            // Set up the message to be displayed to the user.
+            object[] messageLine = new object[] {"Leaving the page will lose all unsaved data."
+                                                    + " Are you sure you want to clear the form?"};
+
+            // Cause the dialog to appear.  If the user presses OK, then "confirm" has taken place and the 
+            // if statement will run.
+            if (await JSRuntime.InvokeAsync<bool>("confirm", messageLine))
+            {
+                NavigationManager.NavigateTo("/categoryProducts");  // Jump to the Category Products page
+                                                                    // (same as the @page directive for the page we want to go to)
+            }
+        }
     }
 }
 

@@ -1,4 +1,8 @@
-﻿@page "/productCRUD"
+﻿<!-- Note the variable included in the {} along with the data type.
+      This will be bound in the code behind to the Parameter of the 
+      same name.
+-->
+@page "/productCRUD/{productID:int?}"
 
 <PageTitle>Product CRUD</PageTitle>
 
@@ -7,7 +11,11 @@
 <h3>Product Database Fundamental Operations</h3>
 <h4>... example of maintaining a database record</h4>
 
-
+<!-- Using the Edit Form allows us to include a Validator that will highlight
+     our controls when they do not meet our data requirements.  We can check the 
+     data in the code behind and then specify custom messages to be displayed directly
+     with the controls.  
+-->
 <EditForm EditContext="@editContext">
     <DataAnnotationsValidator />
 
@@ -24,6 +32,10 @@
         <InputText @bind-Value="CurrentProduct.ProductName"
                      class="form-control" id="productName" 
                      placeholder="Product Name" />
+        <!-- This following line extracts the related message from the MessageStore in the code behind 
+             Note that the syntax in the For attribute references the same thing as the bind-Value
+             of the control that it is intended for.  This pattern may be repeated for all controls.
+        -->
         <ValidationMessage For="@(() => CurrentProduct.ProductName)" />
         <br /><br />
 
@@ -56,6 +68,27 @@
         <ValidationMessage For="@(() => CurrentProduct.SupplierID)" />
         <br /><br />
 
+       @*  <label for="enterPartial" class="form-label">Click to Activate Textbox : </label>
+            <InputCheckbox id="enterPartial" @bind-Value="activateText" class="form-control">                          
+            </InputCheckbox>
+            <br /><br /> *@
+   
+        @* <label for="supplierEntry" class="form-label">Partial Supplier Name : </label>
+            @if (activateText)
+            {
+                <InputText @bind-Value="supplierText"
+                class="form-control" id="supplierEntry"
+                placeholder="Description of Product" />
+            }
+            else
+            {
+                <InputText @bind-Value="supplierText"
+                           class="form-control" id="supplierEntry"
+                           placeholder="Description of Product" readonly />
+            }
+            <ValidationMessage For="@(() => CurrentProduct.QuantityPerUnit)" />
+                <br /><br /> *@
+            
     </div>
 
     <div class="offset-1 col-md-4">
@@ -117,9 +150,18 @@
             Clear
         </button>
         &nbsp;&nbsp;
+        <button type="submit" class="btn btn-outline-secondary rounded-pill"
+                style="width: 200px" @onclick="GoToCategoryProducts">
+            Category Products
+        </button>
+        &nbsp;&nbsp;
     </div>
 </div>
     <br /><br />
+
+    <!-- The validation summary may be placed anywhere in the Edit Form.  It will redisplay
+         all of the messages from the individual controls that hold invalid data.
+    -->
     <ValidationSummary />
 </EditForm>
 

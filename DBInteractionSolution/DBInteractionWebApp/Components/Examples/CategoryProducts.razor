@@ -1,0 +1,96 @@
+﻿@page "/categoryProducts"
+
+@using DBInteractionSystem.Entities
+
+<PageTitle>Category Products</PageTitle>
+
+<h3>Category Products</h3>
+
+<div class="row">
+    <div class="col-md-2">
+        <label for="categoryList">Select a Category : </label>
+        <select id="categoryList" @bind="@categoryID">
+            <option value="0">Select...</option>
+            @foreach(Category item in categories)
+            {
+                <option value="@item.CategoryID">@item.CategoryName</option>
+            }
+        </select>
+        &nbsp; &nbsp;
+        <button type="submit" class="btn btn-primary rounded-pill" @onclick="Fetch">Fetch Products</button>
+    </div>
+</div>
+<br /><br />
+<div class="row">
+    <div class="offset-2 col-md-8">
+        @if(products.Count > 0)
+        {
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>&nbsp</th>
+                        <th>Product</th>
+                        <th>Supplier</th>
+                        <th>Unit Size</th>
+                        <th>Discontinued?</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach(Product item in products)
+                    {
+                        <tr>
+                            <!-- Note the path in the href includes concatonating the productID
+                                   This makes sure that if the link is clicked, the information for 
+                                   the product will be sent to the productCRUD page where it will 
+                                   be extracted from the URL and bound to a Parameter property in 
+                                   the code behind.
+                            -->
+                            <td><a href="/productCRUD/@item.ProductID">Edit</a></td>
+                            <td>@item.ProductName</td>
+                            <td>@item.Supplier.CompanyName</td>
+                            <td>@item.QuantityPerUnit</td>
+                            <td>@(item.Discontinued ? "Yes" : "No")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <br />
+            <button type="submit" class="btn btn-primary rounded-pill" @onclick="Previous">Previous</button>
+            <button type="submit" class="btn btn-primary rounded-pill" @onclick="Next">Next</button>
+        }
+        else
+        {
+            if(categoryID > 0)
+            {
+                <div class="col-md-12 text-center" style="font-size:48px; font-weight:bold">
+                    <p>No products found for the selected category</p>
+                </div>
+            }
+        }
+    </div>
+</div>
+
+
+
+
+@if (feedback.Length > 0)
+{
+    <div class="alert alert-info">
+        <p>@feedback</p>
+    </div>
+}
+
+@if (errorMessages.Count > 0)
+{
+    <div class="alert alert-danger">
+        <p>Please fix the following errors:</p>
+        <ul>
+            @foreach (string error in errorMessages)
+            {
+                <li>@error</li>
+            }
+        </ul>
+    </div>
+}
+
+

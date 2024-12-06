@@ -213,10 +213,15 @@ namespace DBInteractionSystem.BLL
                 throw new AggregateException("Server operation detected errors: ", errors);
             }
 
-
+            // This line tells the Entity Framework that you wish use the data in the inputProduct to 
+            // perform an action
             EntityEntry<Product> updating = _westWindContext.Entry(inputProduct);
-            updating.State = EntityState.Modified;
+            updating.State = EntityState.Modified;      // This line sets the action as an update to the database
 
+            // The following block is where the actions against the database are actually performed.  In particular,
+            // SaveChanges().  It is possible an action we are trying to perform is illegal in the database, so we
+            // put this block in a try/catch, and if an error occurs, then we clear the ChangeTracker and then throw
+            // the Exception we caught back to the calling method.
             int rowsAffected = 0;
             try
             {
@@ -228,10 +233,15 @@ namespace DBInteractionSystem.BLL
                 throw ex;
             }
 
-            return rowsAffected;
+            return rowsAffected;    // If the operation was successful, return the number of rows affected.
         }
 
 
+        /// <summary>
+        /// Note that a Logical delete is the same as an update where the only thing changed is setting the 
+        /// Discontinued flag to true.
+        /// </summary>
+        /// <param name="inputProduct"></param>
         public int Product_LogicalDelete(Product inputProduct)
         {
             List<Exception> errors = new List<Exception>();
@@ -269,6 +279,11 @@ namespace DBInteractionSystem.BLL
         }
 
 
+        /// <summary>
+        /// This method will permanently delete a record from the database.  This should not be done in 
+        /// regular business practices unless the data has been archived.
+        /// </summary>
+        /// <returns></returns>
         public int Product_PhysicalDelete(Product inputProduct)
         {
             List<Exception> errors = new List<Exception>();
@@ -280,7 +295,8 @@ namespace DBInteractionSystem.BLL
 
             bool exists = false;
 
-            
+            // The Any() method returns true if at least one item in the collection satisfies the condition
+            // In this case, is there a product that has the same ProductID as the inputProduct?
             exists = _westWindContext.Products.Any(product => product.ProductID == inputProduct.ProductID);
 
             if (!exists)
@@ -289,7 +305,8 @@ namespace DBInteractionSystem.BLL
                                                 + $"of size {inputProduct.QuantityPerUnit} does not exist on file!");
             }
 
-
+            // Is there a product that matches the supplied productID that is being referred to by a record in
+            // the ManifestItems table?
             exists = _westWindContext.Products.Any(product => product.ManifestItems.Count > 0
                                                                 && product.ProductID == inputProduct.ProductID);
 
@@ -300,6 +317,8 @@ namespace DBInteractionSystem.BLL
                                                 + "  Unable to remove!"));
             }
 
+            // Is there a product that matches the supplied productID that is being referred to by a record in
+            // the OrderDetails table?
             exists = _westWindContext.Products.Any(product => product.OrderDetails.Count > 0
                                                                 && product.ProductID == inputProduct.ProductID);
 
@@ -310,15 +329,17 @@ namespace DBInteractionSystem.BLL
                                                 + "  Unable to remove!"));
             }
 
+
             if (errors.Count > 0)
             {
                 throw new AggregateException("There was a problem with the delete operation: ", errors);
             }
 
 
-
+            // This time we are indicating that a delete operation is to be performed, but otherwise the format
+            // is the same as for updating.
             EntityEntry<Product> deleting = _westWindContext.Entry(inputProduct);
-            deleting.State = EntityState.Deleted;
+            deleting.State = EntityState.Deleted;  // Indicate a delete...
 
             int rowsAffected = 0;
             try
@@ -332,6 +353,64 @@ namespace DBInteractionSystem.BLL
             }
 
             return rowsAffected;
+        }
+
+
+        /// <summary>
+        /// This method was created to support the paginator on the CategoryProducts page.  It returns
+        /// the number of total products in the supplied category.
+        /// </summary>
+        /// <param name="categoryID"></param>
+        /// <returns></returns>
+        public int Product_GetCountForCategoryID(int categoryID)
+        {
+            return _westWindContext.Products
+                                        .Where(product => product.CategoryID == categoryID).Count();
+        }
+
+
+        /// <summary>
+        /// This method will return products from the supplied Category.  They will be limited 
+        /// in number to the value of productsPerPage, and offset by the productPage value. 
+        /// </summary>
+        /// <param name="categoryID"></param>
+        /// <param name="productPage">The zero-index based page offset of results to return</param>
+        /// <param name="productsPerPage">The maximum number of results to return</param>
+        /// <returns></returns>
+        public List<Product> Product_GetByCategoryID(int categoryID, int productPage, int productsPerPage)
+        {
+            List<Product> products = _westWindContext.Products
+                                        .Include(product => product.Supplier)
+                                        .Where(product => product.CategoryID == categoryID)
+                                        .OrderBy(product => product.ProductName)
+                                        .Skip(productPage * productsPerPage)    // Skip() jumps past the numerical number of results
+                                                                                // If on the "first" page, product page will be zero,
+                                                                                // so the results will begin at the start of the set.
+                                                                                // The second page will begin after jumping past
+                                                                                // productPerPage of results.
+                                        .Take(productsPerPage)  // Only keep productsPerPage number of results beginning after
+                                                                // the skipped results.
+                                        .ToList();
+
+
+
+
+            return products;
+        }
+
+
+        /// <summary>
+        /// This method will return the details of a single product matching the provided productID
+        /// </summary>
+        /// <param name="productID"></param>
+        /// <returns></returns>
+        public Product Product_GetByID(int productID)
+        {
+            return _westWindContext.Products
+                                    .Where(product => product.ProductID == productID)
+                                    .FirstOrDefault();  // Remember that this method returns either the 
+                                                        // first item from the results of the Where method
+                                                        // if there are results, and null otherwise.
         }
     }
 }

@@ -21,6 +21,11 @@ namespace DBInteractionSystem.BLL
         }
         #endregion
 
+        /// <summary>
+        /// Return a list of all the categories in the database table ordered by name.
+        /// Eventually to be used to populate the Categories Select control
+        /// </summary>
+        /// <returns></returns>
         public List<Category> Categories_GetAll()
         {
             return _westWindContext.Categories

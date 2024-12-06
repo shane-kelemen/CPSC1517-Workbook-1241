@@ -1,5 +1,6 @@
 ﻿using DBInteractionSystem.DAL;
 using DBInteractionSystem.Entities;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +22,11 @@ namespace DBInteractionSystem.BLL
         }
         #endregion
 
+        /// <summary>
+        /// Return a list of all the suppliers in the database table ordered by name.
+        /// Eventually to be used to populate the Supplier Select control
+        /// </summary>
+        /// <returns></returns>
         public List<Supplier> Suppliers_GetAll()
         {
             return _westWindContext.Suppliers
